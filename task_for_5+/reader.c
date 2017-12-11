@@ -28,10 +28,15 @@ int main() {
 
 	while(1) {
 		if(bufferr -> pos == this_pos) {
+			sleep(1);
 			continue;
 		}
 
 		uint32_t this_seed = verify((void*)bufferr -> buff[this_pos].array);
+		//the change
+		if(this_seed == -1) {
+			break;
+		}
 		printf("Verified at %d with seed %d\n",this_pos, this_seed);
 		this_pos++;
 		this_pos = this_pos % 1000;	
