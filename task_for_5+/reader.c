@@ -31,9 +31,12 @@ int main() {
 			sleep(1);
 			continue;
 		}
+		if(bufferr -> pos >= this_pos + 1000) {
+			break;
+		}
 
 		uint32_t this_seed = verify((void*)bufferr -> buff[this_pos].array);
-		//the change
+		//
 		if(this_seed == -1) {
 			break;
 		}
@@ -43,8 +46,7 @@ int main() {
 		}
 		prev_seed = this_seed;
 		printf("Verified at %d with seed %d\n",this_pos, this_seed);
-		this_pos++;
-		this_pos = this_pos % 1000;	
+		this_pos++;	
 	}	
 	
 	return 0;
