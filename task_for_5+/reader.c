@@ -25,7 +25,7 @@ int main() {
 
 	uint64_t this_pos = 0;
 	printf("starting at %ld\n", this_pos);
-	uint64_t prev_seed = -1;
+	uint64_t old_seed = -1;
 	while(1) {
 		if(bufferr -> pos == this_pos) {
 			sleep(1);
@@ -41,10 +41,10 @@ int main() {
 			break;
 		}
 
-		if(prev_seed + 1 != this_seed) {
+		if(old_seed + 1 != this_seed) {
 			break;
 		}
-		prev_seed = this_seed;
+		old_seed = this_seed;
 		printf("Verified at %d with seed %d\n",this_pos, this_seed);
 		this_pos++;	
 	}	
