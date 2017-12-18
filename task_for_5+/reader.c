@@ -23,30 +23,37 @@ int main() {
 		return -1;
 	}
 
-	uint64_t this_pos = 0;
+	uint64_t this_pos = bufferr -> pos;
 	printf("starting at %ld\n", this_pos);
-	uint64_t old_seed = -1;
+	uint64_t this_seed;
+	uint64_t other_seed;
+	int count = 0;
 	while(1) {
-		if(bufferr -> pos == this_pos) {
-			sleep(1);
-			continue;
-		}
-		if(bufferr -> pos >= this_pos + 1000) {
-			break;
-		}
+	
+		while(bufferr -> pos != this_pos) {
 
-		uint32_t this_seed = verify((void*)bufferr -> buff[this_pos].array);
-		//
-		if(this_seed == -1) {
-			break;
-		}
+			this_seed = verify((void*)bufferr -> buff[this_pos %= _COUNT]);
+			
+			if(bufferr -> pos >= this_pos + _COUNT) {
+				return 3;;
+			}
 
-		if(old_seed + 1 != this_seed) {
-			break;
+			if(this_seed < 0) {
+				printf("error");
+			}
+
+			if(count == 0) {
+				other_seed = this_seed;
+				count = 1;
+			} else if(other_seed + 1 != this_seed) {
+				return 4;
+			}else {
+				other_seed++;
+			}	
 		}
-		old_seed = this_seed;
-		printf("Verified at %d with seed %d\n",this_pos, this_seed);
-		this_pos++;	
+		//old_seed = this_seed;
+		printf("Verified at %d with seed %d\n",this_pos %= _COUNT, this_seed);
+		this_pos++;
 	}	
 	
 	return 0;

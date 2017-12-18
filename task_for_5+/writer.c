@@ -35,10 +35,11 @@ int main() {
 	bufferr -> pos = 0;
 	uint32_t seed = 0;
 	while(true) {
-		generate((void*)bufferr->buff[bufferr->pos].array, seed);
+		generate((void*)bufferr->buff[bufferr->pos %= _COUNT], seed);
+		printf("Generating array[%d] - seed: %d\n", bufferr -> pos %= _COUNT,seed);
 		seed++;
 		bufferr->pos++;
-		bufferr->pos = bufferr->pos % 1000;
+		//bufferr->pos = bufferr->pos % 1000;
 	}
 	return 0;
 
